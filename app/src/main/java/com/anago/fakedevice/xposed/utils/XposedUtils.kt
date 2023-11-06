@@ -1,4 +1,4 @@
-package com.anago.fakedevice.utils
+package com.anago.fakedevice.xposed.utils
 
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge

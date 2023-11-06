@@ -19,4 +19,5 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.anago.fakedevice.MainHook
+-keep class com.anago.fakedevice.xposed.MainHook
+-keep class com.anago.fakedevice.xposed.SelfHook

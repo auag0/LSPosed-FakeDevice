@@ -11,8 +11,8 @@ android {
         applicationId = "com.anago.fakedevice"
         minSdk = 23
         targetSdk = 34
-        versionCode = 10000
-        versionName = "1.0.0"
+        versionCode = 10001
+        versionName = "1.0.1"
     }
 
     buildTypes {
@@ -32,9 +32,11 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.12.0")
     compileOnly("de.robv.android.xposed:api:82")
 }
