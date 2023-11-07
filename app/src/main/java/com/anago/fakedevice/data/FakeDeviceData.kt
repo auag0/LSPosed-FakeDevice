@@ -23,6 +23,22 @@ object FakeDeviceData {
         return getFakeDeviceValue(type)
     }
 
+    fun getFakeDeviceTypeAndBuildFields(): Map<String, FakeDeviceDataType> {
+        return mapOf(
+            "ID" to FakeDeviceDataType.ID,
+            "DISPLAY" to FakeDeviceDataType.BUILD_ID,
+            "PRODUCT" to FakeDeviceDataType.NAME,
+            "DEVICE" to FakeDeviceDataType.DEVICE,
+            "BOARD" to FakeDeviceDataType.BOARD,
+            "MANUFACTURER" to FakeDeviceDataType.MANUFACTURER,
+            "BRAND" to FakeDeviceDataType.BRAND,
+            "MODEL" to FakeDeviceDataType.MODEL,
+            "HARDWARE" to FakeDeviceDataType.HARDWARE,
+            "BOOTLOADER" to FakeDeviceDataType.BOOTLOADER,
+            "FINGERPRINT" to FakeDeviceDataType.FINGERPRINT
+        )
+    }
+
     enum class FakeDeviceDataType {
         ID,
         BUILD_ID,

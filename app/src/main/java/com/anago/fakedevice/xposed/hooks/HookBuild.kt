@@ -1,6 +1,7 @@
 package com.anago.fakedevice.xposed.hooks
 
 import com.anago.fakedevice.data.FakeDeviceData.FakeDeviceDataType
+import com.anago.fakedevice.data.FakeDeviceData.getFakeDeviceTypeAndBuildFields
 import com.anago.fakedevice.data.FakeDeviceData.getFakeDeviceValue
 import com.anago.fakedevice.utils.Logger.logI
 import com.anago.fakedevice.xposed.hooks.base.HookBase
@@ -14,62 +15,16 @@ class HookBuild(classLoader: ClassLoader) : HookBase(classLoader) {
 
     override fun hook() {
         // replace fields
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "ID",
-            getFakeDeviceValue(FakeDeviceDataType.ID)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "DISPLAY",
-            getFakeDeviceValue(FakeDeviceDataType.BUILD_ID)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "PRODUCT",
-            getFakeDeviceValue(FakeDeviceDataType.NAME)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "DEVICE",
-            getFakeDeviceValue(FakeDeviceDataType.DEVICE)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "BOARD",
-            getFakeDeviceValue(FakeDeviceDataType.BOARD)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "MANUFACTURER",
-            getFakeDeviceValue(FakeDeviceDataType.MANUFACTURER)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "BRAND",
-            getFakeDeviceValue(FakeDeviceDataType.BRAND)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "MODEL",
-            getFakeDeviceValue(FakeDeviceDataType.MODEL)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "HARDWARE",
-            getFakeDeviceValue(FakeDeviceDataType.HARDWARE)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "BOOTLOADER",
-            getFakeDeviceValue(FakeDeviceDataType.BOOTLOADER)
-        )
-        XposedHelpers.setStaticObjectField(
-            clazzBuild,
-            "FINGERPRINT",
-            getFakeDeviceValue(FakeDeviceDataType.FINGERPRINT)
-        )
-        logI("replaced Build class")
+        getFakeDeviceTypeAndBuildFields().forEach { (fieldName, type) ->
+            run {
+                XposedHelpers.setStaticObjectField(
+                    clazzBuild,
+                    fieldName,
+                    getFakeDeviceValue(type)
+                )
+                logI("replaced Build field: $fieldName")
+            }
+        }
 
         // hooking String deriveFingerprint()
         XposedHelpers.findAndHookMethod(

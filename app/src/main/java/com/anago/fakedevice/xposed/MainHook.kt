@@ -1,6 +1,5 @@
 package com.anago.fakedevice.xposed
 
-import com.anago.fakedevice.BuildConfig
 import com.anago.fakedevice.utils.Logger.logD
 import com.anago.fakedevice.xposed.hooks.HookBluetoothAdapter
 import com.anago.fakedevice.xposed.hooks.HookBluetoothDevice
@@ -15,9 +14,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class MainHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        if (lpparam.packageName == BuildConfig.APPLICATION_ID) {
-            return
-        }
         logD("loaded: ${lpparam.packageName}")
         val classLoader = lpparam.classLoader
         arrayOf(

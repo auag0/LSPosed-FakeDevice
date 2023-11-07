@@ -20,4 +20,3 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class com.anago.fakedevice.xposed.MainHook
--keep class com.anago.fakedevice.xposed.SelfHook
