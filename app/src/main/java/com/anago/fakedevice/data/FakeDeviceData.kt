@@ -54,6 +54,7 @@ object FakeDeviceData {
         ANDROID_ID,
         IMEI,
         IMSI,
-        BLUETOOTH_NAME
+        BLUETOOTH_NAME,
+        HTTP_AGENT
     }
 }

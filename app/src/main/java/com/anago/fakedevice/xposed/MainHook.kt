@@ -5,6 +5,7 @@ import com.anago.fakedevice.xposed.hooks.HookBluetoothAdapter
 import com.anago.fakedevice.xposed.hooks.HookBluetoothDevice
 import com.anago.fakedevice.xposed.hooks.HookBuild
 import com.anago.fakedevice.xposed.hooks.HookDevicePolicyManager
+import com.anago.fakedevice.xposed.hooks.HookProperties
 import com.anago.fakedevice.xposed.hooks.HookSettings
 import com.anago.fakedevice.xposed.hooks.HookSystemProperties
 import com.anago.fakedevice.xposed.hooks.HookTelephonyManager
@@ -23,7 +24,8 @@ class MainHook : IXposedHookLoadPackage {
             HookTelephonyManager(classLoader),
             HookBluetoothAdapter(classLoader),
             HookBluetoothDevice(classLoader),
-            HookDevicePolicyManager(classLoader)
+            HookDevicePolicyManager(classLoader),
+            HookProperties(classLoader)
         ).forEach {
             it.hook()
         }

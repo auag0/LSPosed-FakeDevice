@@ -26,50 +26,17 @@ class HookSettings(classLoader: ClassLoader) : HookBase(classLoader) {
     }
 
     override fun hook() {
-        // hooking String Secure#getString(ContentResolver resolver, String name)
-        XposedHelpers.findAndHookMethod(
-            clazzSecure,
-            "getString",
-            ContentResolver::class.java,
-            String::class.java,
-            fakeGetStringForUser()
-        )
-        // hooking String Secure#getStringForUser(ContentResolver resolver, String name, int userHandle)
-        XposedHelpers.findAndHookMethod(
-            clazzSecure,
-            "getStringForUser",
-            ContentResolver::class.java,
-            String::class.java,
-            Int::class.java,
-            fakeGetStringForUser()
-        )
-        // hooking String System#getStringForUser(ContentResolver resolver, String name, int userHandle)
-        XposedHelpers.findAndHookMethod(
-            clazzSystem,
-            "getStringForUser",
-            ContentResolver::class.java,
-            String::class.java,
-            Int::class.java,
-            fakeGetStringForUser()
-        )
-        // hooking String Global#getStringForUser(ContentResolver resolver, String name, int userHandle)
-        XposedHelpers.findAndHookMethod(
-            clazzGlobal,
-            "getStringForUser",
-            ContentResolver::class.java,
-            String::class.java,
-            Int::class.java,
-            fakeGetStringForUser()
-        )
-        // hooking String NameValueCache#getStringForUser(ContentResolver cr, String name, final int userHandle)
-        XposedHelpers.findAndHookMethod(
-            clazzNameValueCache,
-            "getStringForUser",
-            ContentResolver::class.java,
-            String::class.java,
-            Int::class.java,
-            fakeGetStringForUser()
-        )
+        val settingsChildClass = arrayOf(clazzSecure, clazzSystem, clazzGlobal, clazzNameValueCache)
+        settingsChildClass.forEach { clazz ->
+            XposedHelpers.findAndHookMethod(
+                clazz,
+                "getStringForUser",
+                ContentResolver::class.java,
+                String::class.java,
+                Int::class.java,
+                fakeGetStringForUser()
+            )
+        }
     }
 
     private fun fakeGetStringForUser(): XC_MethodReplacement {
@@ -87,6 +54,14 @@ class HookSettings(classLoader: ClassLoader) : HookBase(classLoader) {
                 if (name == "bluetooth_name") {
                     Logger.logI("hooked ${param.method.name}")
                     return getFakeDeviceValue(FakeDeviceDataType.BLUETOOTH_NAME)
+                }
+                if(name == Global.DEVELOPMENT_SETTINGS_ENABLED) {
+                    Logger.logI("hooked ${param.method.name}")
+                    return "0"
+                }
+                if(name == Global.ADB_ENABLED) {
+                    Logger.logI("hooked ${param.method.name}")
+                    return "0"
                 }
                 return param.invokeOriginalMethod()
             }
